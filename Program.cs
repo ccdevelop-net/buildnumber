@@ -157,15 +157,15 @@ private static bool ProcessArguments(string[]? args) {
             // Increment build number
             ++_buildNumber;
           }
-          
-          // Verify build number range
-          if (_buildNumber > MAXBuildNumber || _buildNumber == 0) {
-            _buildNumber = STARTBuildNumber;
-          }
-
-          // Save file DAT
-          File.WriteAllText(datFile, $"{_buildNumber}");
         }
+        
+        // Verify build number range
+        if (_buildNumber > MAXBuildNumber || _buildNumber == 0) {
+          _buildNumber = STARTBuildNumber;
+        }
+  
+        // Save file DAT
+        File.WriteAllText(datFile, $"{_buildNumber}");
       } catch (Exception ex) {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine($"Error to process 'build.dat' file in {_outputPath}");
@@ -180,18 +180,21 @@ private static bool ProcessArguments(string[]? args) {
         case "C": {
           _selectedOutputType = OutputType.CFileType;
           _fileOutput = string.Concat(FILEBuildName, "h");
+          Console.WriteLine("Build Number file for C");
           break;
         }
         //================================================
         case "C++": {
           _selectedOutputType = OutputType.CPPFileType;
           _fileOutput = string.Concat(FILEBuildName, "hpp");
+          Console.WriteLine("Build Number file for C++");
           break;
         }
         //================================================
         case "C#": {
           _selectedOutputType = OutputType.CSFileType;
           _fileOutput = string.Concat(FILEBuildName, "cs");
+          Console.WriteLine("Build Number file for C#");
           break;
         }
         //================================================
@@ -232,6 +235,7 @@ private static bool ProcessArguments(string[]? args) {
     Console.WriteLine($"Running on : " + (OperatingSystem.IsLinux() ? "Linux" : "Windows"));
     Console.WriteLine($"Copyright @ 2023 by Cristian Croci (https://solidsnake72.github.io/)");
     Console.WriteLine($"License: GNU General Public License V3");
+    Console.WriteLine();
     
     // Process Argument
     if (!ProcessArguments(args)) {
@@ -271,7 +275,7 @@ private static bool ProcessArguments(string[]? args) {
       fileOut.WriteLine(" * @brief Build number in number");
       fileOut.WriteLine(" */");
       if (_selectedOutputType == OutputType.CPPFileType) {
-        fileOut.WriteLine($"constexpr uint32_t BUILDNUMBER = {_buildNumber}");
+        fileOut.WriteLine($"constexpr uint32_t BUILDNUMBER = {_buildNumber};");
       } else {
         fileOut.WriteLine($"#define BUILDNUMBER         {_buildNumber}");
       }
@@ -280,7 +284,7 @@ private static bool ProcessArguments(string[]? args) {
       fileOut.WriteLine(" * @brief Build number in string format");
       fileOut.WriteLine(" */");
       if (_selectedOutputType == OutputType.CPPFileType) {
-        fileOut.WriteLine($"constexpr char[] BUILDNUMBER = \"{_buildNumber}\0\"");
+        fileOut.WriteLine($"constexpr char[] BUILDNUMBER = \"{_buildNumber}\";");
       } else {
         fileOut.WriteLine($"#define BUILDNUMBER_STR     \"{_buildNumber}\"");
       }
