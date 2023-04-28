@@ -266,6 +266,11 @@ private static bool ProcessArguments(string[]? args) {
       fileOut.WriteLine(" */");
       fileOut.WriteLine($"#ifndef _BUILD_NUMBER_{(_selectedOutputType == OutputType.CPPFileType ? "HPP_" : "H_")}");
       fileOut.WriteLine($"#define _BUILD_NUMBER_{(_selectedOutputType == OutputType.CPPFileType ? "HPP_" : "H_")}");
+      if (_selectedOutputType == OutputType.CPPFileType) {
+        fileOut.WriteLine();
+        fileOut.WriteLine("#include <cstdint>");
+        fileOut.WriteLine("#include <string>");
+      }
       fileOut.WriteLine();
       fileOut.WriteLine("// *****************************************************************************");
       fileOut.WriteLine("// -----------------------------------------------------------------------------");
@@ -275,7 +280,7 @@ private static bool ProcessArguments(string[]? args) {
       fileOut.WriteLine(" * @brief Build number in number");
       fileOut.WriteLine(" */");
       if (_selectedOutputType == OutputType.CPPFileType) {
-        fileOut.WriteLine($"constexpr uint32_t BUILDNUMBER = {_buildNumber};");
+        fileOut.WriteLine($"constexpr uint32_t    BUILDNUMBER = {_buildNumber};");
       } else {
         fileOut.WriteLine($"#define BUILDNUMBER         {_buildNumber}");
       }
@@ -284,7 +289,7 @@ private static bool ProcessArguments(string[]? args) {
       fileOut.WriteLine(" * @brief Build number in string format");
       fileOut.WriteLine(" */");
       if (_selectedOutputType == OutputType.CPPFileType) {
-        fileOut.WriteLine($"constexpr char[] BUILDNUMBER = \"{_buildNumber}\";");
+        fileOut.WriteLine($"constexpr char        BUILDNUMBER_STR[] = \"{_buildNumber}\";");
       } else {
         fileOut.WriteLine($"#define BUILDNUMBER_STR     \"{_buildNumber}\"");
       }
