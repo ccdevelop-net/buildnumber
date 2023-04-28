@@ -1,2 +1,2 @@
-# buildnumber
-Tool per la gestione dei file che contentengono il Build number del progetto C/C++ e C# 
+# Build Number
+Tool to manage the Build Number in C/C++ and C# projects
